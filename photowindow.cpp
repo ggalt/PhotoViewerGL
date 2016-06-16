@@ -28,10 +28,18 @@ void PhotoWindow::paintGL()
 void PhotoWindow::ReadURLs(void)
 {
     photoUrlList.clear();
+#ifdef Q_OS_LINUX
+    photoUrlList.append("/home/ggalt/Pictures/2006-Summer/IMG_0430.JPG");
+    photoUrlList.append("/home/ggalt/Pictures/2006-Summer/IMG_0431.JPG");
+    photoUrlList.append("/home/ggalt/Pictures/2015/Hawaii and California/DSC_0611.JPG");
+    photoUrlList.append("/home/ggalt/Pictures/2015/Hawaii and California/DSC_0633.JPG");
+#else
     photoUrlList.append("C:\Users\ggalt66\Pictures\Desktop Images\DSC_0682");
     photoUrlList.append("C:\Users\ggalt66\Pictures\Desktop Images\DSC_0759");
     photoUrlList.append("C:\Users\ggalt66\Pictures\Desktop Images\DSC_1656");
     photoUrlList.append("C:\Users\ggalt66\Pictures\Desktop Images\DSC_0738");
+#endif
+
 }
 
 QString PhotoWindow::NextImage(void)
