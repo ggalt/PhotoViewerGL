@@ -16,13 +16,22 @@
 #include <QBrush>
 #include <QColor>
 
+#include <QPainter>
+
+#include <QTimer>
+
 class PhotoWindow : public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
 public:
     PhotoWindow();
 
-    Init(void);
+    void Init(void);
+
+private slots:
+    void LoadNextPhoto(void);
+
+signals:
 
 protected:
     void initializeGL();
@@ -32,7 +41,6 @@ protected:
 private:
     void ReadURLs(void);
     QString NextImage(void);
-    void LoadNextPhoto(void);
 
 
 private:
@@ -40,6 +48,15 @@ private:
 
     QImage *imgBackground[2];
     QImage *imgForeground[2];
+    float imgBGAspectRatio[2];
+
+
+    int windowWidth;
+    int windowHeight;
+    float aspectRatio;
+    bool isWider;
+
+    QTimer tick;
 };
 
 #endif // PHOTOWINDOW_H
