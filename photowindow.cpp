@@ -9,8 +9,8 @@ PhotoWindow::PhotoWindow()
 
 void PhotoWindow::Init(void)
 {
-    imgBackground[0] = new QImage();
-    imgBackground[1] = new QImage();
+    fullImage[0] = new QImage();
+    fullImage[1] = new QImage();
     ReadURLs();
     tick.setInterval(5000);
     connect(&tick, SIGNAL(timeout()),
@@ -54,13 +54,19 @@ void PhotoWindow::paintGL()
 //        y = (int)(windowHeight-(windowWidth/imgBGAspectRatio[0]))/2;
 
 //    p.drawImage(x,y,imgBackground[0]->scaled(windowWidth,windowHeight,Qt::KeepAspectRatio));
-    if(aspectRatio > imgBGAspectRatio[0]) {
-        y = (int)(windowHeight - (float)windowWidth/imgBGAspectRatio[0])/2;
-        p.drawImage(x,y,imgBackground[0]->scaled(windowWidth-(2*y),windowHeight,Qt::KeepAspectRatioByExpanding));
+    if(aspectRatio > fullImgAspectRation[0]) {
+        // window is wider than image
+        // set image width to window and adjust height using image aspect
+        // set y to a negative equal to half the height difference of window and adjusted image
+        y = (int)(windowHeight - (float)windowWidth/fullImgAspectRation[0])/2;
+        p.drawImage(x,y,fullImage[0]->scaled(windowWidth,(windowWidth / fullImgAspectRation[0]),Qt::KeepAspectRatioByExpanding));
     }
     else {
-        x = (int)(windowWidth - (float)windowHeight*imgBGAspectRatio[0])/2;
-        p.drawImage(x,y,imgBackground[0]->scaled(windowWidth,windowHeight-(2*x),Qt::KeepAspectRatioByExpanding));
+        // window is taller than image
+        // set image height to window and adjust width using image aspect
+        // set x to a negative equal to half the width difference between window and adjusted image
+        x = (int)(windowWidth - (float)windowHeight*fullImgAspectRation[0])/2;
+        p.drawImage(x,y,fullImage[0]->scaled(windowHeight*fullImgAspectRation[0],windowHeight,Qt::KeepAspectRatioByExpanding));
     }
 
     qDebug() << x << y;
@@ -71,10 +77,15 @@ void PhotoWindow::ReadURLs(void)
 {
     photoUrlList.clear();
 #ifdef Q_OS_LINUX
-    photoUrlList.append("/home/ggalt/Pictures/2006-Summer/IMG_0430.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2006-Summer/IMG_0431.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2015/Hawaii and California/DSC_0611.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2015/Hawaii and California/DSC_0633.JPG");
+    photoUrlList.append("/home/ggalt/Pictures/DesktopImages/DSC_0004.JPG");
+    photoUrlList.append("/home/ggalt/Pictures/DesktopImages/DSC_0686-1.JPG");
+    photoUrlList.append("/home/ggalt/Pictures/DesktopImages/DSC_0712-1.JPG");
+    photoUrlList.append("/home/ggalt/Pictures/DesktopImages/DSC_0796-1.JPG");
+
+//    photoUrlList.append("/home/ggalt/Pictures/2006-Summer/IMG_0430.JPG");
+//    photoUrlList.append("/home/ggalt/Pictures/2006-Summer/IMG_0431.JPG");
+//    photoUrlList.append("/home/ggalt/Pictures/2015/Hawaii and California/DSC_0611.JPG");
+//    photoUrlList.append("/home/ggalt/Pictures/2015/Hawaii and California/DSC_0633.JPG");
 #else
     photoUrlList.append("C:/Users/ggalt66/Pictures/Desktop Images/DSC_0682");
     photoUrlList.append("C:/Users/ggalt66/Pictures/Desktop Images/DSC_0759");
@@ -102,13 +113,13 @@ void PhotoWindow::LoadNextPhoto(void)
 
     reader.setFileName(NextImage());
     qDebug() << reader.fileName();
-    if( !imgBackground[1]->isNull() ) {
-        delete imgBackground[1];
-        imgBackground[1] = imgBackground[0];
+    if( !fullImage[1]->isNull() ) {
+        delete fullImage[1];
+        fullImage[1] = fullImage[0];
     }
-    imgBackground[0] = new QImage(reader.read());
-    if(imgBackground[0]->isNull())
+    fullImage[0] = new QImage(reader.read());
+    if(fullImage[0]->isNull())
         qDebug() << reader.errorString();
-    imgBGAspectRatio[0] = (float)imgBackground[0]->width() / (float)imgBackground[0]->height();
+    fullImgAspectRation[0] = (float)fullImage[0]->width() / (float)fullImage[0]->height();
     this->update();
 }

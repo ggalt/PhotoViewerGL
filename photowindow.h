@@ -46,9 +46,10 @@ private:
 private:
     QStringList photoUrlList;
 
+    QImage *fullImage[2];
     QImage *imgBackground[2];
     QImage *imgForeground[2];
-    float imgBGAspectRatio[2];
+    float fullImgAspectRation[2];
 
 
     int windowWidth;
