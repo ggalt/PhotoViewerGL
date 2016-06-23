@@ -13,6 +13,10 @@ void PhotoWindow::Init(void)
     fullImage[1] = new QImage();
     ReadURLs();
     tick.setInterval(5000);
+
+    scene = new QGraphicsScene(this);
+    view = new QGraphicsView(scene, this);
+
     connect(&tick, SIGNAL(timeout()),
             this, SLOT(LoadNextPhoto()));
     tick.start();

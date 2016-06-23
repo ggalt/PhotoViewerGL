@@ -17,6 +17,8 @@
 #include <QColor>
 
 #include <QPainter>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 #include <QTimer>
 
@@ -41,6 +43,8 @@ protected:
 private:
     void ReadURLs(void);
     QString NextImage(void);
+    QImage *CreateBlur(QImage* img, qreal radius);
+    QImage *SizedImage(QImage* img, int width);
 
 
 private:
@@ -58,6 +62,9 @@ private:
     bool isWider;
 
     QTimer tick;
+
+    QGraphicsScene *scene;
+    QGraphicsView *view;
 };
 
 #endif // PHOTOWINDOW_H
