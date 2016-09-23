@@ -17,10 +17,10 @@
 #include <QColor>
 
 #include <QPainter>
-#include <QGraphicsScene>
-#include <QGraphicsView>
 
 #include <QTimer>
+
+#include "animatedimage.h"
 
 class PhotoWindow : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -31,7 +31,7 @@ public:
     void Init(void);
 
 private slots:
-    void LoadNextPhoto(void);
+    void NextImage(void);
 
 signals:
 
@@ -42,29 +42,17 @@ protected:
 
 private:
     void ReadURLs(void);
-    QString NextImage(void);
-    QImage *CreateBlur(QImage* img, qreal radius);
-    QImage *SizedImage(QImage* img, int width);
+    QString SelectImage(void);
 
 
 private:
     QStringList photoUrlList;
-
-    QImage *fullImage[2];
-    QImage *imgBackground[2];
-    QImage *imgForeground[2];
-    float fullImgAspectRation[2];
-
-
-    int windowWidth;
-    int windowHeight;
-    float aspectRatio;
-    bool isWider;
+    AnimatedImage *backgroundIn;
+    AnimatedImage *backgroundOut;
+    AnimatedImage *foregroundIn;
+    AnimatedImage *foregroundOut;
 
     QTimer tick;
-
-    QGraphicsScene *scene;
-    QGraphicsView *view;
 };
 
 #endif // PHOTOWINDOW_H

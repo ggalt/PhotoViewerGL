@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    photowindow.cpp
+    photowindow.cpp \
+    animatedimage.cpp
 
 HEADERS  += \
-    photowindow.h
+    photowindow.h \
+    animatedimage.h
 
 FORMS    +=

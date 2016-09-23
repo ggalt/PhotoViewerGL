@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 //    w.show();
 
     PhotoWindow *p = new PhotoWindow();
+//    p->resize(1000,1000);
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
