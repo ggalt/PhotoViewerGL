@@ -11,6 +11,8 @@
 #include <QGraphicsOpacityEffect>
 #include <QImage>
 #include <QPixmap>
+#include <QGraphicsPixmapItem>
+#include <QPainter>
 
 #include <QRect>
 #include <QSize>
@@ -32,10 +34,11 @@ public:
     ~AnimatedImage();
 
 
-    void setMyImage(QImage image);
+    void setMyImage(QImage image, bool isBack=false);
     void setImageRect(QRect r) { imageRect = r; }
     void setBlurValue(int b) { blurValue = b; }
-    void setImageAspect(int width, int height) { fullImageSize = QSize(width,height); imageAspect = (width*1000)/height; }
+    void setOpacity(qreal o) { opacity = o; }
+    void setImageAspect(int width, int height);
     void setScreenSize(int width,int height); // { screenSize = QSize(width, height); screenAspect = (width*1000)/height; }
     void setAnimationDuration(int d) { animationDuration = d; }
     void setIsBackground(bool is) { isBackground = is; }
@@ -45,6 +48,7 @@ public:
     QRect getImageRect(void) { return imageRect; }
     QSize getScaledImageSize(void) { return scaledImageSize; }
     int getBlurValue(void) { return blurValue; }
+    qreal getOpacity(void) { return opacity; }
     int getImageAspect(void) { return imageAspect; }
     int getAnimationDuration(void) { return animationDuration; }
     bool getIsBackground(void) { return isBackground; }
@@ -59,6 +63,7 @@ protected:
     void resizeEvent(QResizeEvent *e);
 
 private:
+    QImage applyEffectToImage(QPixmap src, QGraphicsEffect *effect, int extent=0);
 
 private:
     QImage myImage;
@@ -68,6 +73,7 @@ private:
     QSize screenSize;
     QRect imageRect;
     int blurValue;
+    qreal opacity;
     int imageAspect;
     int screenAspect;
     AnimationState myState;

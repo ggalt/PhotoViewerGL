@@ -32,6 +32,7 @@ public:
 
 private slots:
     void NextImage(void);
+    void AnimateScreen(void);
 
 signals:
 
@@ -51,6 +52,8 @@ private:
     AnimatedImage *backgroundOut;
     AnimatedImage *foregroundIn;
     AnimatedImage *foregroundOut;
+
+    AnimationState animationState;
 
     QTimer tick;
 };
