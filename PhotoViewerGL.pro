@@ -14,10 +14,17 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     photowindow.cpp \
-    animatedimage.cpp
+    animatedimage.cpp \
+    photoframe.cpp \
+    scaledimage.cpp
 
 HEADERS  += \
     photowindow.h \
-    animatedimage.h
+    animatedimage.h \
+    photoframe.h \
+    scaledimage.h
 
 FORMS    +=
+
+RESOURCES += \
+    photoviewerglresources.qrc

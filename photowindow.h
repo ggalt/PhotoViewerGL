@@ -17,10 +17,20 @@
 #include <QColor>
 
 #include <QPainter>
-
+#include <QPropertyAnimation>
 #include <QTimer>
 
-#include "animatedimage.h"
+//#include "animatedimage.h"
+#include "photoframe.h"
+
+typedef enum {
+    PreFadeIn,
+    FadeIn,
+    View,
+    FadeOut,
+    PostFadeOut } AnimationState;
+
+
 
 class PhotoWindow : public QOpenGLWidget, protected QOpenGLFunctions
 {
@@ -29,6 +39,15 @@ public:
     PhotoWindow();
 
     void Init(void);
+
+    void SetFadeSeconds(int s) { fadeSeconds = s; }
+    void SetBackgroundFadeSeconds(int s) { backgroundFadeSeconds = s; }
+
+    int GetFadeSeconds(void) { return fadeSeconds; }
+    int GetBackgroundFadeSeconds(void) { return backgroundFadeSeconds; }
+
+    qreal GetFadeStep(void) { return fadeStep; }
+    qreal GetBackgroundFadeStep(void) { return backgroundFadeStep; }
 
 private slots:
     void NextImage(void);
@@ -44,18 +63,30 @@ protected:
 private:
     void ReadURLs(void);
     QString SelectImage(void);
+    void SetupSteps(void);
 
 
 private:
     QStringList photoUrlList;
-    AnimatedImage *backgroundIn;
-    AnimatedImage *backgroundOut;
-    AnimatedImage *foregroundIn;
-    AnimatedImage *foregroundOut;
+//    AnimatedImage *backgroundIn;
+//    AnimatedImage *backgroundOut;
+//    AnimatedImage *foregroundIn;
+//    AnimatedImage *foregroundOut;
+    PhotoFrame *foreground;
+    PhotoFrame *background;
+
 
     AnimationState animationState;
 
+    int fadeSeconds;
+    int backgroundFadeSeconds;
+
+    qreal fadeStep;
+    qreal backgroundFadeStep;
+
     QTimer tick;
+    QPropertyAnimation *anim;
+
 };
 
 #endif // PHOTOWINDOW_H

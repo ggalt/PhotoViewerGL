@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "animatedimage.h"
 #include <stdio.h>
 
@@ -5,6 +6,7 @@ AnimatedImage::AnimatedImage(QSize myParentSize, QWidget *parent) : QWidget(pare
 {
     setScreenSize(myParentSize.width(), myParentSize.height());
     isBackground = false;       // assumed
+    setMyImage(QImage(":/Images/blankimage.jpeg"));
 }
 
 
@@ -14,14 +16,20 @@ AnimatedImage::~AnimatedImage()
 
 void AnimatedImage::setMyImage(QImage image, bool isBack)
 {
-    myImage = image;
+    if( image.isNull() ) {
+        myImage = QImage(":/Image/blankimage.jpeg");
+        qDebug() << "loading default image";
+    }
+    else
+        myImage = image;
+
     setImageAspect(myImage.width(), myImage.height());
 
     isBackground = isBack;
 
     if( isBackground ) {
         QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
-        blur->setBlurRadius(getBlurValue());
+        blur->setBlurRadius(blurValue());
         myScaledImage = applyEffectToImage(QPixmap::fromImage(image), blur, 0);
     } else {
         if(screenAspect > imageAspect) {    // screen is wider than image
