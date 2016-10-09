@@ -14,15 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     photowindow.cpp \
-    animatedimage.cpp \
-    photoframe.cpp \
-    scaledimage.cpp
+    scaledImage.cpp \
+    imageFrame.cpp \
+    scaledImage.cpp
 
 HEADERS  += \
     photowindow.h \
-    animatedimage.h \
-    photoframe.h \
-    scaledimage.h
+    imageFrame.h \
+    scaledImage.h
 
 FORMS    +=
 

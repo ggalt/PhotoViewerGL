@@ -1,5 +1,5 @@
-#ifndef ANIMATEDIMAGE_H
-#define ANIMATEDIMAGE_H
+#ifndef IMAGEFRAME_H
+#define IMAGEFRAME_H
 
 #include <QWidget>
 #include <QResizeEvent>
@@ -17,6 +17,8 @@
 #include <QRect>
 #include <QSize>
 
+#include "scaledImage.h"
+
 typedef enum {
     PreFadeIn,
     FadeIn,
@@ -26,7 +28,7 @@ typedef enum {
 
 
 
-class AnimatedImage : public QWidget
+class ImageFrame : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
@@ -34,28 +36,18 @@ class AnimatedImage : public QWidget
 
 
 public:
-    explicit AnimatedImage(QSize myParentSize, QWidget *parent = 0);
-    ~AnimatedImage();
+    explicit ImageFrame(QSize myParentSize, QWidget *parent = 0);
+    ~ImageFrame();
 
-
-    void setMyImage(QImage image, bool isBack=false);
-    void setImageRect(QRect r) { imageRect = r; }
+    void setInboundImage(QImage image, bool isBack);
     void setblurValue(int b) { m_blurValue = b; emit blurValueChanged(); }
-    void setOpacity(qreal o) { m_opacity = o; emit opacityChanged(); }
-    void setImageAspect(int width, int height);
+    void setOpacity(qreal o) { m_opacity = o; inbound->setOpacity(o); outbound->setOpacity(1.0 - o); emit opacityChanged(); }
     void setScreenSize(int width,int height); // { screenSize = QSize(width, height); screenAspect = (width*1000)/height; }
     void setAnimationDuration(int d) { animationDuration = d; }
     void setIsBackground(bool is) { isBackground = is; }
 
-    QImage getMyImage(void) { return myImage; }
-    QImage getMyScaledImage(void) { return myScaledImage; }
-    QRect getImageRect(void) { return imageRect; }
-    QSize getScaledImageSize(void) { return scaledImageSize; }
     int blurValue(void) { return m_blurValue; }
     qreal opacity(void) { return m_opacity; }
-    int getImageAspect(void) { return imageAspect; }
-    int getAnimationDuration(void) { return animationDuration; }
-    bool getIsBackground(void) { return isBackground; }
 
 signals:
     void opacityChanged(void);
@@ -69,25 +61,17 @@ protected:
     void resizeEvent(QResizeEvent *e);
 
 private:
-    QImage applyEffectToImage(QPixmap src, QGraphicsEffect *effect, int extent=0);
-
-private:
-    QImage myImage;
-    QImage myScaledImage;
-    QSize fullImageSize;
-    QSize scaledImageSize;
+    QImage inbound_FullSize;
+    QImage outbound_FullSize;
+    ScaledImage *inbound;
+    ScaledImage *outbound;
     QSize screenSize;
-    QRect imageRect;
     int m_blurValue;
     qreal m_opacity;
-    int imageAspect;
     int screenAspect;
     AnimationState myState;
     int animationDuration;
     bool isBackground;
-//    QPropertyAnimation *anim;
-//    QGraphicsBlurEffect *blur;
-//    QGraphicsOpacityEffect *opacity;
 };
 
-#endif // ANIMATEDIMAGE_H
+#endif // IMAGEFRAME_H

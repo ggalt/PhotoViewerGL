@@ -20,15 +20,14 @@
 #include <QPropertyAnimation>
 #include <QTimer>
 
-//#include "animatedimage.h"
-#include "photoframe.h"
+#include "imageFrame.h"
 
-typedef enum {
-    PreFadeIn,
-    FadeIn,
-    View,
-    FadeOut,
-    PostFadeOut } AnimationState;
+//typedef enum {
+//    PreFadeIn,
+//    FadeIn,
+//    View,
+//    FadeOut,
+//    PostFadeOut } AnimationState;
 
 
 
@@ -68,13 +67,8 @@ private:
 
 private:
     QStringList photoUrlList;
-//    AnimatedImage *backgroundIn;
-//    AnimatedImage *backgroundOut;
-//    AnimatedImage *foregroundIn;
-//    AnimatedImage *foregroundOut;
-    PhotoFrame *foreground;
-    PhotoFrame *background;
-
+    ImageFrame *backgroundFrame;
+    ImageFrame *foregroundFrame;
 
     AnimationState animationState;
 
@@ -86,7 +80,6 @@ private:
 
     QTimer tick;
     QPropertyAnimation *anim;
-
 };
 
 #endif // PHOTOWINDOW_H
