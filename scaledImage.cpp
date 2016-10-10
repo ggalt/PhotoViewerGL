@@ -1,13 +1,16 @@
 #include <QDebug>
-#include "scaledImage.h"
+#include <QPainter>
 #include <stdio.h>
+
+#include "scaledImage.h"
+
 
 ScaledImage::ScaledImage(QSize myParentSize, QWidget *parent) : QWidget(parent)
 {
     myFrameSize = myParentSize;
-    myFrameAspectRatio (myParentSize.width() * 1000) / myParentSize.height();
+    myFrameAspectRatio = (myParentSize.width() * 1000) / myParentSize.height();
     isBackground = false;       // assumed
-    setMyImage(QImage(":/Images/blankimage.jpeg"));
+    setMyImage(QImage(":/images/blankimage.jpeg"));
 }
 
 
@@ -17,20 +20,27 @@ ScaledImage::~ScaledImage()
 
 void ScaledImage::setMyImage(QImage image, bool isBack, int blurVal)
 {
-    m_AspectRatio = (image.width() * 1000) /  image.height();
     isBackground = isBack;
 
     if( image.isNull() ) {
-        myImage = QImage(":/Images/blankimage.jpeg");
+        image = QImage(":/images/blankimage.jpeg");
         qDebug() << "loading default image";
     }
-    else if(!isBackground){
-        if(myFrameAspectRatio > m_AspectRatio) {    // Frame is wider than image
+
+    m_AspectRatio = (image.width() * 1000) /  image.height();
+    qDebug() << "Frame size is:" << myFrameSize << "Image size is:" << image.size();
+
+    if(!isBackground){
+        qDebug() << "Not background image";
+        if(myFrameAspectRatio >= m_AspectRatio) {    // Frame is wider than image
+            qDebug() << "frame is WIDER than image";
             myImage = image.scaledToHeight(myFrameSize.height());
         } else {
+            qDebug() << "frame is NARROWER than image";
             myImage = image.scaledToWidth(myFrameSize.width());
         }
     } else {
+        qDebug() << "background image with blur of:" << blurVal;
         m_blurValue = blurVal;
         QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
         blur->setBlurRadius(blurValue());
@@ -40,12 +50,15 @@ void ScaledImage::setMyImage(QImage image, bool isBack, int blurVal)
 
 void ScaledImage::setMyFrameSize(QImage image, QSize s)
 {
+    qDebug() << "scaled image getting frame size of" << s;
     m_AspectRatio = (image.width() * 1000) /  image.height();
     myFrameSize = s;
 
-    if(myFrameAspectRatio > m_AspectRatio) {    // Frame is wider than image
+    if(myFrameAspectRatio >= m_AspectRatio) {    // Frame is wider than image
+        qDebug() << "frame is WIDER than image";
         myImage = image.scaledToHeight(myFrameSize.height());
     } else {
+        qDebug() << "frame is NARROWER than image";
         myImage = image.scaledToWidth(myFrameSize.width());
     }
 }
@@ -54,8 +67,9 @@ void ScaledImage::setMyFrameSize(QImage image, QSize s)
 QImage ScaledImage::applyEffectToImage(QPixmap src, QGraphicsEffect *effect, int extent)
 {
     if(src.isNull())
-        return QImage();   //No need to do anything else!
+        return QImage(":/images/blankimage.jpeg");   //No need to do anything else!
 
+    qDebug() << "applying blur effect";
     QGraphicsScene scene;
     QGraphicsPixmapItem item;
     item.setPixmap(src);

@@ -4,8 +4,11 @@
 
 ImageFrame::ImageFrame(QSize myParentSize, QWidget *parent) : QWidget(parent)
 {
+    qDebug() << "Establshing Frame";
     screenSize = myParentSize;
     isBackground = false;       // assumed
+    inbound_FullSize = QImage(":/images/blankimage.jpeg");
+    outbound_FullSize = QImage(":/images/blankimage.jpeg");
     inbound = new ScaledImage(myParentSize, parent);
     outbound = new ScaledImage(myParentSize, parent);
 }
@@ -19,6 +22,7 @@ ImageFrame::~ImageFrame()
 
 void ImageFrame::setInboundImage(QImage image, bool isBack)
 {
+    qDebug() << "setting inbound image";
     outbound_FullSize = QImage(inbound_FullSize);
     inbound_FullSize = image;
     m_opacity = 0.0;
@@ -61,9 +65,20 @@ void ImageFrame::AnimationStop(void)
     }
 }
 
+void ImageFrame::setScreenSize(int width,int height)
+{
+    setScreenSize(QSize(width,height));
+}
+
+void ImageFrame::setScreenSize(QSize s)
+{
+    qDebug() << "setting screen size to:" << s;
+    inbound->setMyFrameSize(inbound_FullSize, s);
+    outbound->setMyFrameSize(outbound_FullSize, s);
+}
+
 void ImageFrame::resizeEvent(QResizeEvent *e)
 {
-    inbound->setMyFrameSize(inbound_FullSize, e->size());
-    outbound->setMyFrameSize(outbound_FullSize, e->size());
+    setScreenSize(e->size());
 }
 

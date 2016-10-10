@@ -14,7 +14,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     photowindow.cpp \
-    scaledImage.cpp \
     imageFrame.cpp \
     scaledImage.cpp
 

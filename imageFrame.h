@@ -43,11 +43,15 @@ public:
     void setblurValue(int b) { m_blurValue = b; emit blurValueChanged(); }
     void setOpacity(qreal o) { m_opacity = o; inbound->setOpacity(o); outbound->setOpacity(1.0 - o); emit opacityChanged(); }
     void setScreenSize(int width,int height); // { screenSize = QSize(width, height); screenAspect = (width*1000)/height; }
+    void setScreenSize(QSize s);
     void setAnimationDuration(int d) { animationDuration = d; }
     void setIsBackground(bool is) { isBackground = is; }
 
     int blurValue(void) { return m_blurValue; }
     qreal opacity(void) { return m_opacity; }
+
+    ScaledImage *getInboundImage(void) { return inbound; }
+    ScaledImage *getOutboundImage(void) { return outbound; }
 
 signals:
     void opacityChanged(void);
