@@ -4,6 +4,7 @@
 
 ImageFrame::ImageFrame(QSize myParentSize, QWidget *parent) : QWidget(parent)
 {
+    DEBUG_PROCESS
     qDebug() << "Establshing Frame";
     screenSize = myParentSize;
     isBackground = false;       // assumed
@@ -22,6 +23,7 @@ ImageFrame::~ImageFrame()
 
 void ImageFrame::setInboundImage(QImage image, bool isBack)
 {
+    DEBUG_PROCESS
     qDebug() << "setting inbound image";
     outbound_FullSize = QImage(inbound_FullSize);
     inbound_FullSize = image;
@@ -34,6 +36,7 @@ void ImageFrame::setInboundImage(QImage image, bool isBack)
 
 void ImageFrame::AnimationStart(AnimationState s)
 {
+    DEBUG_PROCESS
     myState = s;
     switch(myState) {
     case PreFadeIn:
@@ -67,11 +70,13 @@ void ImageFrame::AnimationStop(void)
 
 void ImageFrame::setScreenSize(int width,int height)
 {
+    DEBUG_PROCESS
     setScreenSize(QSize(width,height));
 }
 
 void ImageFrame::setScreenSize(QSize s)
 {
+    DEBUG_PROCESS
     qDebug() << "setting screen size to:" << s;
     inbound->setMyFrameSize(inbound_FullSize, s);
     outbound->setMyFrameSize(outbound_FullSize, s);
@@ -79,6 +84,7 @@ void ImageFrame::setScreenSize(QSize s)
 
 void ImageFrame::resizeEvent(QResizeEvent *e)
 {
+    DEBUG_PROCESS
     setScreenSize(e->size());
 }
 

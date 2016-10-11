@@ -13,6 +13,7 @@
 
 #include <QSize>
 
+#define DEBUG_PROCESS qDebug() << "############" << __PRETTY_FUNCTION__;
 
 class ScaledImage : public QWidget
 {

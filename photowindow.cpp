@@ -3,6 +3,8 @@
 #include <cstdlib>      // for rand and srand
 #include <stdio.h>
 
+
+
 PhotoWindow::PhotoWindow()
 {
 
@@ -10,6 +12,7 @@ PhotoWindow::PhotoWindow()
 
 void PhotoWindow::Init(void)
 {
+    DEBUG_PROCESS
     qDebug() << "This size is:" << this->size();
 
     backgroundFrame = new ImageFrame(this->size(), this);
@@ -102,14 +105,14 @@ void PhotoWindow::ReadURLs(void)
     //// Main
     photoUrlList.append("/home/ggalt/Pictures/2006-Summer/IMG_0430.JPG");
     photoUrlList.append("/home/ggalt/Pictures/2006-Summer/IMG_0431.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2015/Hawaii and California/DSC_0611.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2015/Hawaii and California/DSC_0633.JPG");
+    photoUrlList.append("'/home/ggalt/Pictures/2015/Hawaii and California/DSC_0611.JPG'");
+    photoUrlList.append("/home/ggalt/Pictures/OldPhotos/DSC_0688.JPG");
 
 //    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/G0010093ww.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/G0010093.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/GOPR0116.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/GOPR0137.JPG");
-    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/GOPR0170.JPG");
+//    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/G0010093.JPG");
+//    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/GOPR0116.JPG");
+//    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/GOPR0137.JPG");
+//    photoUrlList.append("/home/ggalt/Pictures/2013_07_Hawaii/GOPR0170.JPG");
 
 #else
     photoUrlList.append("C:/Users/ggalt66/Pictures/Desktop Images/DSC_0682");

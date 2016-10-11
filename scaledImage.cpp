@@ -7,6 +7,7 @@
 
 ScaledImage::ScaledImage(QSize myParentSize, QWidget *parent) : QWidget(parent)
 {
+    DEBUG_PROCESS
     myFrameSize = myParentSize;
     myFrameAspectRatio = (myParentSize.width() * 1000) / myParentSize.height();
     isBackground = false;       // assumed
@@ -20,6 +21,7 @@ ScaledImage::~ScaledImage()
 
 void ScaledImage::setMyImage(QImage image, bool isBack, int blurVal)
 {
+    DEBUG_PROCESS
     isBackground = isBack;
 
     if( image.isNull() ) {
@@ -50,6 +52,7 @@ void ScaledImage::setMyImage(QImage image, bool isBack, int blurVal)
 
 void ScaledImage::setMyFrameSize(QImage image, QSize s)
 {
+    DEBUG_PROCESS
     qDebug() << "scaled image getting frame size of" << s;
     m_AspectRatio = (image.width() * 1000) /  image.height();
     myFrameSize = s;
@@ -66,6 +69,7 @@ void ScaledImage::setMyFrameSize(QImage image, QSize s)
 
 QImage ScaledImage::applyEffectToImage(QPixmap src, QGraphicsEffect *effect, int extent)
 {
+    DEBUG_PROCESS
     if(src.isNull())
         return QImage(":/images/blankimage.jpeg");   //No need to do anything else!
 
